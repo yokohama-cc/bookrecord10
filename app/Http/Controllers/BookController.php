@@ -52,7 +52,7 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        return Inertia::render('Book/Edit',compact('book'));
     }
 
     /**
@@ -60,7 +60,10 @@ class BookController extends Controller
      */
     public function update(UpdateBookRequest $request, Book $book)
     {
-        //
+        $input = $request->all();
+        
+        $book->update($input);
+        return redirect()->route('books.index');
     }
 
     /**
@@ -68,6 +71,8 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+    return redirect()->route('books.index');
     }
 }

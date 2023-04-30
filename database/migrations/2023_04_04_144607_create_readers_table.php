@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('name');
             $table->char('school_number',7);
             $table->year('admission_year');
-            $table->foreignId('department_id')->constrained();
             $table->timestamps();
         });
     }

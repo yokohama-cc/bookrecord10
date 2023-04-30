@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Membership;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -9,6 +10,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+
+
+use App\Models\Reader;
+use App\Models\TeamInvitation;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -32,9 +37,11 @@ class CreateNewUser implements CreatesNewUsers
             return tap(User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
-                'password' => Hash::make($input['password']),
-            ]), function (User $user) {
+                'password' => Hash::make($input['password'])
+                ])
+            , function (User $user) use ($input) {
                 $this->createTeam($user);
+                $this->createReader($user,$input);
             });
         });
     }
@@ -44,10 +51,34 @@ class CreateNewUser implements CreatesNewUsers
      */
     protected function createTeam(User $user): void
     {
+        $teamInvitation = TeamInvitation::where('email',$user->email)->first();
+        
+        if ($teamInvitation)
+        { Membership::Create([
+            'user_id' => $user->id,
+            'team_id' => $teamInvitation->team_id,
+            'role' => $teamInvitation->role,
+                            ]);
+           $teamInvitation->delete(); 
+        }
+        
         $user->ownedTeams()->save(Team::forceCreate([
             'user_id' => $user->id,
             'name' => explode(' ', $user->name, 2)[0]."'s Team",
             'personal_team' => true,
         ]));
+    }
+    /**
+     * Create a reader for the user.
+     */
+    protected function createReader(User $user,$input): void
+    {
+         //読者情報
+         Reader::create([
+            'user_id' => $user['id'],
+            'name' => $input['reader_name'],
+            'school_number' => $input['school_number'],
+            'admission_year' => $input['admission_year'],
+        ]);
     }
 }

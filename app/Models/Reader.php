@@ -8,9 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Reader extends Model
 {
     use HasFactory;
-
-    public function department()
-    {
-        return $this->belongsTo('App\Department');
-    }
+    
+    protected $fillable = ['name','user_id','school_number','admission_year'];
+    
 }

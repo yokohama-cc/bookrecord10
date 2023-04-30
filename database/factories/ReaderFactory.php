@@ -21,7 +21,6 @@ class ReaderFactory extends Factory
             'name' => $this->faker->name,
             'school_number' => $this->faker->bothify('######?'),
             'admission_year' => $this->faker->numberBetween($min = 2013, $max = 2018),
-            'department_id' => $this->faker->numberBetween($min = 1, $max = 3),
         ];
     }
 }

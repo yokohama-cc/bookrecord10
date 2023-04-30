@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateBookRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class UpdateBookRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,14 @@ class UpdateBookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:255',
+            'author' => 'required|max:255',
+            'company' => 'required|max:255',
+            'isbn' => [
+                        'required',
+                        'regex:/^[0-9]{13}$/',
+                        Rule::unique('books')->ignore($this->book),
+                      ]  
         ];
     }
 }

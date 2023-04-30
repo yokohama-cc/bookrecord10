@@ -14,6 +14,7 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                ja: ['ＭＳ Ｐゴシック','メイリオ','ヒラギノ角ゴシック'],
             },
         },
     },

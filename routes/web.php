@@ -6,6 +6,7 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ReaderController;
+use App\Http\Controllers\ReadingRecordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +33,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
+    Route::get('/dashboard',[ReadingRecordController::class, 'index'])->name('dashboard');
+    /*Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
-    })->name('dashboard');
+    })->name('dashboard');*/
 });
 
 

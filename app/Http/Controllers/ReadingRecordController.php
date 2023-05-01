@@ -6,6 +6,8 @@ use App\Http\Requests\StoreReadingRecordRequest;
 use App\Http\Requests\UpdateReadingRecordRequest;
 use App\Models\ReadingRecord;
 
+use Inertia\Inertia;
+
 class ReadingRecordController extends Controller
 {
     /**
@@ -13,7 +15,8 @@ class ReadingRecordController extends Controller
      */
     public function index()
     {
-        //
+        $reading_records = ReadingRecord::all();
+        return Inertia::render('Dashbord',compact('reading_records'));
     }
 
     /**

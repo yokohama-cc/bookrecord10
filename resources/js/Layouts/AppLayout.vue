@@ -52,7 +52,7 @@ const logout = () => {
                                     Dashboard
                                 </NavLink>
                                 <NavLink :href="route('books.index')" :active="route().current('books.index')">
-                                    図書
+                                    本を登録・変更する
                                 </NavLink> 
                             </div>
                         </div>

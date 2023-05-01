@@ -17,16 +17,17 @@ class UserSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('users')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        /*DB::table('users')->insert([
+        DB::table('users')->insert([
             [
                 'name'	=>  'システム管理者',
                 'email'		=>	'admin@bookrecord.com',
-                'password'			=> bcrypt('sayakakenta'),
+                'password'			=> bcrypt('adminadmin'),
+                'current_team_id' => 1,
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             ],
         
-        ]);*/
+        ]);
         \App\Models\User::factory(10)->create();
         
     }

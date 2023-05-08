@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('assigned_books', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('department_id')->constrained();
+            $table->foreignId('team_id')->constrained();
             $table->foreignId('book_id')->constrained();
             $table->timestamps();
         });

@@ -6,6 +6,8 @@ use App\Http\Requests\StoreReaderRequest;
 use App\Http\Requests\UpdateReaderRequest;
 use App\Models\Reader;
 
+use Inertia\Inertia;
+
 class ReaderController extends Controller
 {
     /**
@@ -13,7 +15,8 @@ class ReaderController extends Controller
      */
     public function index()
     {
-        //
+        $readers = Reader::all();
+        return Inertia::render('Reader/Index',compact('readers'));
     }
 
     /**
@@ -21,7 +24,7 @@ class ReaderController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Reader/Create');
     }
 
     /**
@@ -29,7 +32,11 @@ class ReaderController extends Controller
      */
     public function store(StoreReaderRequest $request)
     {
-        //
+        $input = $request->all();
+        $input['user_id'] = $request->user()->id;
+        Reader::create($input);
+        
+        return redirect()->route('readers.index');
     }
 
     /**
@@ -37,7 +44,7 @@ class ReaderController extends Controller
      */
     public function show(Reader $reader)
     {
-        //
+        return view('readers.show', compact('reader'));
     }
 
     /**
@@ -45,7 +52,8 @@ class ReaderController extends Controller
      */
     public function edit(Reader $reader)
     {
-        //
+        $this->authorize('update_and_delete', $reader);
+        return Inertia::render('Reader/Edit', compact('reader'));
     }
 
     /**
@@ -53,7 +61,10 @@ class ReaderController extends Controller
      */
     public function update(UpdateReaderRequest $request, Reader $reader)
     {
-        //
+        $this->authorize('update_and_delete', $reader);
+        $input = $request->all();        
+        $reader->update($input);
+        return redirect('dashboard');
     }
 
     /**
@@ -61,6 +72,8 @@ class ReaderController extends Controller
      */
     public function destroy(Reader $reader)
     {
-        //
+        $this->authorize('update_and_delete', $reader);
+        $reader->delete();
+        return redirect()->route('readers.index');
     }
 }

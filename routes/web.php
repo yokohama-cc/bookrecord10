@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ReaderController;
 use App\Http\Controllers\ReadingRecordController;
+use App\Http\Controllers\AssignedBookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,12 +34,27 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard',[ReadingRecordController::class, 'index'])->name('dashboard');
-    /*Route::get('/dashboard', function () {
+    //Route::get('/dashboard',[ReadingRecordController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
-    })->name('dashboard');*/
+    })->name('dashboard');
 });
 
+Route::get('assigned_books',[AssignedBookController::class,'index'])->name('assigned_books.index');
+Route::post('assigned_books',[AssignedBookController::class,'index'])->name('assigned_books.select');
+Route::get('assigned_books/list',[AssignedBookController::class,'index'])->name('assigned_books.list');
+Route::post('assigned_books/list',[AssignedBookController::class,'index'])->name('assigned_books.postlist');
+Route::post('assigned_books/add', [AssignedBookController::class,'add'])->name('assigned_books.add');
+Route::delete('assigned_books/{assigned_book}', [AssignedBookController::class,'destroy'])->name('assigned_books.destroy');
+Route::post('assigned_books/search', [AssignedBookController::class,'search'])->name('assigned_books.search');
+
+Route::post('books/search', [BookController::class,'search']);
+Route::get('reading_records/booklist/{id}', [ReadingRecordController::class,'booklist'])->name('reading_records.booklist');
+Route::get('reading_records/readerlist', [ReadingRecordController::class,'readerlist'])->name('reading_records.readerlist');
+Route::get('reading_records/add/{id}', [ReadingRecordController::class,'add'])->name('reading_records.add');
+Route::get('reading_records/search', [ReadingRecordController::class,'search'])->name('reading_records.search');
+Route::get('reading_records/searchbyreader', [ReadingRecordController::class,'searchbyreader'])->name('reading_records.searchreader');
 
 Route::resource('books', BookController::class);
 Route::resource('readers', ReaderController::class);
+Route::resource('reading_records', ReadingRecordController::class);

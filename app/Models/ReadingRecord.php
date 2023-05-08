@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ReadingRecord extends Model
 {
@@ -11,9 +12,9 @@ class ReadingRecord extends Model
 
     protected $fillable = ['book_id','reader_id','year_read','month_read','report'];
     public function book(){
-        return $this->belongsTo('App\Book');
+        return $this->belongsTo(Book::class);
     }
     public function reader(){
-        return $this->belongsTo('App\Reader');
+        return $this->belongsTo(Reader::class);
     }
 }

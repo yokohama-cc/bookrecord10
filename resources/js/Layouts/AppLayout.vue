@@ -51,8 +51,17 @@ const logout = () => {
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+                                <NavLink :href="route('assigned_books.list')" :active="route().current('assigned_books.list')">
+                                    読書記録を作成する
+                                </NavLink>
+                                <NavLink :href="route('reading_records.readerlist')" :active="route().current('reading_records.readerlist')">
+                                    読書記録を見る
+                                </NavLink>
                                 <NavLink :href="route('books.index')" :active="route().current('books.index')">
                                     本を登録・変更する
+                                </NavLink>
+                                <NavLink :href="route('assigned_books.index')" :active="route().current('assigned_books.index')">
+                                    指定図書登録
                                 </NavLink> 
                             </div>
                         </div>

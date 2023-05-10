@@ -52,7 +52,7 @@ Route::post('books/search', [BookController::class,'search']);
 Route::get('reading_records/booklist/{id}', [ReadingRecordController::class,'booklist'])->name('reading_records.booklist');
 Route::get('reading_records/readerlist', [ReadingRecordController::class,'readerlist'])->name('reading_records.readerlist');
 Route::get('reading_records/add/{id}', [ReadingRecordController::class,'add'])->name('reading_records.add');
-Route::get('reading_records/search', [ReadingRecordController::class,'search'])->name('reading_records.search');
+Route::post('reading_records/search', [ReadingRecordController::class,'search'])->name('reading_records.search');
 Route::get('reading_records/searchbyreader', [ReadingRecordController::class,'searchbyreader'])->name('reading_records.searchreader');
 
 Route::resource('books', BookController::class);

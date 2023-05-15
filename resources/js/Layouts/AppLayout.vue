@@ -52,7 +52,7 @@ const logout = () => {
                                     Dashboard
                                 </NavLink>
                                 <NavLink :href="route('assigned_books.list')" :active="route().current('assigned_books.list')">
-                                    読書記録を作成する
+                                    読書記録を登録する
                                 </NavLink>
                                 <NavLink :href="route('reading_records.readerlist')" :active="route().current('reading_records.readerlist')">
                                     読書記録を見る

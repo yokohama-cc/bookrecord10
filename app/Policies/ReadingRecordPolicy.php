@@ -63,4 +63,9 @@ class ReadingRecordPolicy
     {
         //
     }
+
+    public function update_and_delete(User $user, ReadingRecord $reading_record)
+    {
+        return ($user->reader->id == $reading_record->reader_id);    
+    }
 }

@@ -5,31 +5,29 @@ import Icon from '@/Components/Icon.vue';
 import { toRef } from 'vue';
 
 const props = defineProps({
-    current_team: Object,
+    current_team_id: Number,
     books: Object,
     assigned_books: Object,
 });
 
 const deleteForm = useForm({
-  team_id: '',
+  team_id: props.current_team_id,
 });
 
 
 
 const addForm = useForm({
-    team_id: '',
+    team_id: props.current_team_id,
     book_id: '',
 });
 
-const deleteAssignedBook = (assigned_book,current_team_value) => {
-    deleteForm.team_id = current_team_value.id;
-    deleteForm.delete(route('assigned_books.destroy', assigned_book), {
+const deleteAssignedBook = (assigned_book) => {
+        deleteForm.delete(route('assigned_books.destroy', assigned_book), {
         errorBag: 'deleteAssignedBook',
     });
 };
 
-const addAssignedBook = (book,current_team_value) => {
-    addForm.team_id = current_team_value.id;
+const addAssignedBook = (book) => {
     addForm.book_id = book.id;
     // formAdd.transform(props.team_id,book.id) => {team_id:team_id,book_id:book_id}
     addForm.post(route('assigned_books.add'), {
@@ -39,7 +37,7 @@ const addAssignedBook = (book,current_team_value) => {
 </script>
 <template>
 
-  <span v-for="current_team_value in current_team">
+ 
   <div class="bg-white rounded-md shadow overflow-x-auto">
       <table class="w-full whitespace-nowrap">
         <thead>
@@ -59,32 +57,32 @@ const addAssignedBook = (book,current_team_value) => {
           </tr> 
           <tr v-for="assigned_book in assigned_books" :key="assigned_book.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book,current_team_value)">
+                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)">
                     {{ assigned_book.book.name }}
                 </Link>
               </td>
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
                     {{ assigned_book.book.author }}
                 </Link>
               </td>
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
                     {{ assigned_book.book.company }}
                 </Link>
               </td>
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
                     {{ assigned_book.book.year_publication }}
                 </Link>
               </td>
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
                     {{ assigned_book.book.isbn }}
                 </Link>
               </td>
               <td class="w-px border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
                     <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
                 </Link>
               </td>
@@ -97,32 +95,32 @@ const addAssignedBook = (book,current_team_value) => {
             
             <tr v-for="book in books" :key="book.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="addAssignedBook(book,current_team_value)">
+                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="addAssignedBook(book)">
                   {{ book.name }}
                 </Link>
               </td>
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
                   {{ book.author }}
                 </Link>
               </td>
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
                   {{ book.company }}
                 </Link>
               </td>
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
                   {{ book.year_publication }}
                 </Link>
               </td>
               <td class="border-t">
-                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
                   {{ book.isbn }}
                 </Link>
               </td>
               <td class="w-px border-t">
-                <Link class="flex items-center px-4" method ="post" as="button" @click="addAssignedBook(book,current_team_value)" tabindex="-1">
+                <Link class="flex items-center px-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
                   <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
                 </Link>
               </td>
@@ -133,6 +131,6 @@ const addAssignedBook = (book,current_team_value) => {
     
     
   </div>
-  </span>
+  
 </template>
 

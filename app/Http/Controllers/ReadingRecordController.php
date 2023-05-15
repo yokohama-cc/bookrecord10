@@ -12,73 +12,93 @@ use App\Models\Reader;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class ReadingRecordController extends Controller
 {
     public function search(StoreReadingRecordRequest $request)
     {
-        $page = $request->session()->pull('page');
-        $team_id = $request->input('team_id');
-        $current_team = Team::where('id',$team_id)->get();
-        $teams = Team::pluck('name','id');
+        //$page = $request->session()->pull('page');
+        $current_team_id = $request->input('team_id');
+        $teams = Team::all();
         $param = $request->input('param');
         $key = '%'.$param.'%';
-        $temp = Team::where('id',$team_id)->with('allUsers');
+        $temp = Team::where('id',$current_team_id)->with('allUsers');
+        //$temp = DB::table('team_user')->where('id',$team_id)->get();
         $users_id = $temp->pluck('user_id');
         $readers_id = Reader::whereIn('user_id',$users_id)->pluck('id');
         $books_id = Book::where('name','like',$key)->pluck('id');
         //$reading_records = ReadingRecord::whereIn('book_id',$books_id)->whereIn('reader_id',$readers_id)->paginate(10,array('*'),'page',$page);
         $reading_records = ReadingRecord::whereIn('book_id',$books_id)->whereIn('reader_id',$readers_id)->with('book')->with('reader')->get();
-        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team'));
+        foreach ($reading_records as $reading_record) {
+            $canUpdate = $this->authorize('update_and_delete', $reading_record);
+            $reading_record->append(['canUpdate',$canUpdate]);
+        }
+        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team_id'));
     }
     
     public function searchbyreader(StoreReadingRecordRequest $request)
     {
         $page = $request->session()->pull('page');
-        $teams = Team::pluck('name','id');
-        $team_id = Auth::user()->current_team_id;
-        $current_team = Team::where('id',$team_id)->get();
+        $teams = Team::all();
+        $current_team_id = Auth::user()->current_team_id;
         $param = $request->input('paramreader');
         $key = '%'.$param.'%';
-        $temp = Team::where('id',$team_id)->with('allUsers');
+        $temp = Team::where('id',$current_team_id)->with('allUsers');
+        //$temp = DB::table('team_user')->where('id',$team_id)->get();
         $users_id = $temp->pluck('user_id');
         $readers_id = Reader::whereIn('user_id',$users_id)->pluck('id');
         $reading_records = ReadingRecord::whereIn('reader_id',$readers_id)->with('book')->with('reader')->get();
         //$reading_records = ReadingRecord::whereIn('reader_id',$readers_id)->paginate(10,array('*'),'page',$page);
+        foreach ($reading_records as $reading_record) {
+            $canUpdate = $this->authorize('update_and_delete', $reading_record);
+            $reading_record->append(['canUpdate',$canUpdate]);
+        }
         
-        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team'));
+        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team_id'));
     }
     
     public function booklist(StoreReadingRecordRequest $request, $book_id)
     {
-        $teams = Team::pluck('name','id');
+        $teams = Team::all();
         $team_id = Auth::user()->current_team_id;
-        $current_team = Team::where('id',$team_id)->get();
+        $current_team_id = Team::where('id',$team_id)->get();
         $page = $request->session()->pull('page');
         $reading_records = ReadingRecord::where('book_id',$book_id)->paginate(10,array('*'),'page',$page);
-        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team'));
+        foreach ($reading_records as $reading_record) {
+            $canUpdate = $this->authorize('update_and_delete', $reading_record);
+            $reading_record->append(['canUpdate',$canUpdate]);
+        }
+        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team_id'));
     }
     
     public function readerlist(StoreReadingRecordRequest $request)
     {
         //$reader_id = Auth::user()->reader->id;
         $teams = Team::all();
-        $team_id = Auth::user()->current_team_id;
-        $current_team = Team::where('id',$team_id)->get();
+        $current_team_id = Auth::user()->current_team_id;
         $page = $request->session()->pull('page');
-        $temp = Team::where('id',$team_id)->with('allUsers');
+        $temp = Team::where('id',$current_team_id)->with('allUsers');
         $users_id = $temp->pluck('user_id');
         $readers_id = Reader::whereIn('user_id',$users_id)->pluck('id');
         //$reading_records = ReadingRecord::whereIn('reader_id',$readers_id)->paginate(10,array('*'),'page',$page);
         $reading_records = ReadingRecord::whereIn('reader_id',$readers_id)->with('book')->with('reader')->get();
-        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team'));
+        $collection_Reading_records = collect();
+        foreach ($reading_records as $reading_record) {
+            $canUpdate = $this->authorize('update_and_delete', $reading_record);
+            $array_reading_record = $reading_record->toArray();
+            $array_reading_record['canUpdate'] =  $canUpdate;
+            $collection_Reading_records->push($array_reading_record);
+            }
+        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team_id'));
     }
  
     public function add($book_id)
     {
         $book = Book::find($book_id);
-        $reader = Reader::find(Auth::user()->reader->id);
-        return view('reading_records.add',compact('book','reader'));
+        $book_name = $book->name;
+        //$reader = Reader::find(Auth::user()->reader->id);
+        return Inertia::render('ReadingRecord/Create',compact('book_id','book_name'));
     }
     /**
      * Display a listing of the resource.
@@ -93,7 +113,11 @@ class ReadingRecordController extends Controller
         $readers_id = Reader::whereIn('user_id',$users_id)->pluck('id');
         //$reading_records = ReadingRecord::whereIn('book_id',$books_id)->whereIn('reader_id',$readers_id)->paginate(10,array('*'),'page',$page);
         $reading_records = ReadingRecord::with('reader')->with('book')->get();
-        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team'));
+        foreach ($reading_records as $reading_record) {
+            $canUpdate = $this->authorize('update_and_delete', $reading_record);
+            $reading_record->append(['canUpdate',$canUpdate]);
+        }
+        return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team_id'));
     }
 
     /**
@@ -102,8 +126,8 @@ class ReadingRecordController extends Controller
     public function create()
     {
         $books = Book::pluck('name','id');
-        $readers = Reader::pluck('name','id');
-        return view('reading_records.form',compact('books','readers'));
+        //$readers = Reader::pluck('name','id');
+        return Inertia::render('ReadingRecord/Create',compact('books'));
     }
 
     /**
@@ -111,10 +135,17 @@ class ReadingRecordController extends Controller
      */
     public function store(StoreReadingRecordRequest $request)
     {
-        $reading_record = $request->all();
-        ReadingRecord::create($reading_record);
+        $input = $request->all();
+        $reading_record = new ReadingRecord();
+        $book_id = $input['book_id'];
+        $reading_record->book_id = $input['book_id'];
+        $reading_record->year_read = $input['yearmonth_read']['year'];
+        $reading_record->month_read = $input['yearmonth_read']['month'];
+        $reading_record->reader_id = Auth::user()->reader->id;
+        $reading_record->report = $input['report'];
+        $reading_record->save();
         //$url = 'reading_records/readerlist/'.$reading_record['reader_id'];
-        return redirect('reading_records/readerlist');
+        return redirect()->route('reading_records/readerlist');
     }
 
     /**
@@ -133,32 +164,33 @@ class ReadingRecordController extends Controller
         $this->authorize('update_and_delete', $reading_record);
         //$books = Book::pluck('name','id');
         //$readers = Reader::pluck('name','id');
-        $book = Book::find($reading_record->book_id);
-        $reader = Reader::find(Auth::user()->reader->id);        
-        return view('reading_records.add',compact('reading_record','book','reader'));
+        $book_id = $reading_record->book_id;
+        $book = Book::find($book_id);
+        $book_name = $book->name;       
+        return Inertia::render('ReadingRecord/Edit',compact('reading_record','book_id','book_name'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateReadingRecordRequest $request, ReadingRecord $readingRecord)
+    public function update(UpdateReadingRecordRequest $request, ReadingRecord $reading_record)
     {
         $this->authorize('update_and_delete', $reading_record);
         $input = $request->all();
         
         $reading_record->update($input);
         //$url = 'reading_records/readerlist/'.$reading_record['reader_id'];
-        return redirect('reading_records/readerlist');
+        return redirect()->route('reading_records/readerlist');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ReadingRecord $readingRecord)
+    public function destroy(ReadingRecord $reading_record)
     {
         $this->authorize('update_and_delete', $reading_record);
         $reading_record->delete();
-        $page = $request->input('page');
-        return redirect('reading_records/readerlist');
+        //$page = $request->input('page');
+        return redirect()->route('reading_records/readerlist');
     }
 }

@@ -15,14 +15,6 @@ defineEmits(['update:modelValue']);
 
 const input = ref(null);
 
-onMounted(() => {
-    if (input.value.hasAttribute('autofocus')) {
-        input.value.focus();
-    }
-});
-
-defineExpose({ focus: () => input.value.focus() });
-
 </script>
 
 <template>
@@ -32,7 +24,7 @@ defineExpose({ focus: () => input.value.focus() });
         ref="input" 
         :value="modelValue"
         @change ="$emit('update:modelValue', $event.target.value)">
-        <option v-for="team in teams" :key="team.id" :value="team">{{team.name}}</option>
+        <option v-for="team in teams" :key="team.id" :value="team_id">{{team.name}}</option>
     </select>
     
     <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">

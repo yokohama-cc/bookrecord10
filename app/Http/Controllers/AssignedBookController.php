@@ -18,12 +18,12 @@ class AssignedBookController extends Controller
      */
     public function index(StoreAssignedBookRequest $request)
     {
+        
         if ($request->has('team_id')) 
-            $team_id = $request->input('team_id');
+            $current_team_id = $request->input('team_id');
         else 
-            $team_id = Auth::user()->current_team_id;
-        $current_team = Team::where('id',$team_id)->get();
-        list ($assigned_books,$books) = $this->getbooks($team_id);
+            $current_team_id = Auth::user()->current_team_id;
+        list ($assigned_books,$books,$teams) = $this->getbooks($current_team_id);
 
         if ($request->fullUrl() === url('assigned_books/list'))
             $vue = 'AssignedBook/List';
@@ -31,17 +31,18 @@ class AssignedBookController extends Controller
             $vue = 'AssignedBook/Index';
         
         
-        return Inertia::render($vue,compact('assigned_books','books','current_team'));
+        return Inertia::render($vue,compact('assigned_books','books','teams','current_team_id'));
     }
 
     public function select(StoreAssignedBookRequest $request)
     {
+        
         if ($request->has('team_id')) 
-            $team_id = $request->input('team_id');
+            $current_team_id = $request->input('team_id');
         else 
-            $team_id = Auth::user()->current_team_id;
-        $current_team = Team::where('id',$team_id)->get();    
-        list ($assigned_books,$books) = $this->getbooks($team_id);
+            $current_team_id = Auth::user()->current_team_id;
+              
+        list ($assigned_books,$books,$teams) = $this->getbooks($current_team_id);
         
         if ($request->fullUrl() === url('assigned_books/list'))
             $vue = 'AssignedBook/List';
@@ -49,59 +50,60 @@ class AssignedBookController extends Controller
             $vue = 'AssignedBook/Index';
         
         
-        return Inertia::render($vue,compact('assigned_books','books','current_team'));
+        return Inertia::render($vue,compact('assigned_books','books','teams','current_team_id'));
     }
 
     public function add(StoreAssignedBookRequest $request)
     {
+        
         $assigned_book = $request->all();
         AssignedBook::create($assigned_book);
-        $team_id = $request->input('team_id');
-        $current_team = Team::where('id',$team_id)->get();
-        list ($assigned_books,$books) = $this->getbooks($team_id);
-        $request->replace(array('team_id' => $team_id));
+        $current_team_id = $request->input('team_id');
+        list ($assigned_books,$books,$teams) = $this->getbooks($current_team_id);
+        $request->replace(array('team_id' => $current_team_id));
         //return $this->index($request);
-        return Inertia::render('AssignedBook/Index',compact('assigned_books','books','current_team'));
+        return Inertia::render('AssignedBook/Index',compact('assigned_books','books','teams','current_team_id'));
     }
     public function destroy(AssignedBook $assigned_book,StoreAssignedBookRequest $request)
     {
         $assigned_book->delete();
         
-        $team_id = $request->input('team_id');
-        $current_team = Team::where('id',$team_id)->get();
-        list ($assigned_books,$books) = $this->getbooks($team_id);
+        $current_team_id = $request->input('team_id');
         
-        return Inertia::render('AssignedBook/Index',compact('assigned_books','books','current_team'));
+        list ($assigned_books,$books) = $this->getbooks($current_team_id);
+        
+        return Inertia::render('AssignedBook/Index',compact('assigned_books','books','teams','current_team_id'));
     }
     
-    public function search(Request $request)
+    public function search(StoreAssignedBookRequest $request)
     {
         $param = $request->input('param');
-        $team_id = $request->input('team_id');
+        $current_team_id = $request->input('team_id');
         if (empty($param))
         {
             
-            list ($assigned_books,$books,$teams) = $this->getbooks($team_id);
+            list ($assigned_books,$books,$teams) = $this->getbooks($current_team_id);
         }
         else 
         {
         $key = '%'.$param.'%';
         $books = Book::where('name','like',$key)->orwhere('author','like',$key)->orwhere('company','like',$key)->get();
                 
-        $teams = team::pluck('name','id');
+        
         
         $books_id = $books->pluck('id');
-        $assigned_books = AssignedBook::where('team_id',$team_id)->whereIn('book_id',$books_id)->with(book)->get();
+        $assigned_books = AssignedBook::where('team_id',$current_team_id)->whereIn('book_id',$books_id)->with('book')->get();
            
         $assigned_books_id = $assigned_books->pluck('book_id');
         $books = $books->whereNotIn('id',$assigned_books_id)->sortBy('id')->all();
         
         }
-        return Inertia::render('assigned_books.list',compact('assigned_books','books','teams','team_id'));
+        return Inertia::render('assigned_books.list',compact('assigned_books','books','teams','current_team_id'));
     }
     
     private function getbooks(Int $team_id)
     {
+        $teams = Team::all();
         $assigned_books = AssignedBook::where('team_id',$team_id)->orderBy('book_id')->with('book')->get();
         
         if (empty($assigned_books))
@@ -111,6 +113,6 @@ class AssignedBookController extends Controller
                 $assigned_books_id = $assigned_books->pluck('book_id');
                 $books = Book::whereNotIn('id',$assigned_books_id)->orderBy('id')->get();
             }
-            return array ($assigned_books,$books);    
+            return array ($assigned_books,$books,$teams);    
     }
 }

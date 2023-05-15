@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\Membership;
+use App\Models\User;
 
 class TeamUserSeeder extends Seeder
 {
@@ -19,6 +20,12 @@ class TeamUserSeeder extends Seeder
         DB::table('team_user')->truncate();
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         
-        \App\Models\Membership::factory(10)->create();
+        $users = User::all();
+        foreach ($users as $user) {
+            if ($user->id != 1) {
+            \App\Models\Membership::factory()->create([
+                'user_id' => $user->id,
+                 ]);}
+                }
     }
 }

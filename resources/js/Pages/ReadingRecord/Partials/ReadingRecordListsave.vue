@@ -23,7 +23,7 @@ const props = defineProps({
 <template>
     <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="bg-white shadow-xl sm:rounded-lg">
                     
                     <table class="my-5 mx-5 table-fixed border-collapse border border-slate-400 font-ja text-sm">
                         <thead>
@@ -40,7 +40,7 @@ const props = defineProps({
                                 <td class="px-4 py-2 border border-slate-300 font-ja text-sm">{{ reading_record.book.name }}</td>
                                 <td class="px-4 py-2 border border-slate-300 font-ja text-sm">{{ reading_record.reader.name}}</td>
                                 <td class="px-4 py-2 border border-slate-300 font-ja text-sm">{{ reading_record.year_read}} / {{ reading_record.month_read }}</td>
-                                <td class="px-4 py-2 border border-slate-300 font-ja text-sm">{{ reading_record.report }}</td>
+                                <td class="px-4 py-2 border border-slate-300 font-ja text-sm truncate ...">{{ reading_record.report }}</td>
                                 <td class="px-4 py-2 border border-slate-300 font-ja text-sm">
                                     <Link :href="route('reading_records.edit', reading_record)">
                                         <PrimaryButton>

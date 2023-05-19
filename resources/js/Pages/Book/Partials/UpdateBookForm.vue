@@ -80,7 +80,6 @@ const updateBook = () => {
                     <YearInput
                         id="year_publication"
                         v-model="form.year_publication"
-                        type="text"
                         class="mt-1 block w-full"
                         required
                         autofocus

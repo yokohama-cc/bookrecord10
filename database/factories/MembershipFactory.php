@@ -26,7 +26,7 @@ class MembershipFactory extends Factory
         return [
             //'team_id' => Team::factory(),
             //'user_id' => User::factory(),
-            'team_id' => $this->faker->numberBetween($min = 1, $max = 5),
+            //'team_id' => $this->faker->numberBetween($min = 1, $max = 5),
             //'user_id' => $this->faker->numberBetween($min = 1, $max = 10),
             'role' => 'editor',
         ];

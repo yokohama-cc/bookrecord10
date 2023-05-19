@@ -7,7 +7,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-
+import BookrecordLogo from '@/Components/BookrecordLogo.vue';
 defineProps({
     title: String,
 });
@@ -41,16 +41,16 @@ const logout = () => {
                         <div class="flex">
                             <!-- Logo -->
                             <div class="shrink-0 flex items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationMark class="block h-9 w-auto" />
+                                <Link :href="route('reading_records.readerlist')">
+                                    <BookrecordLogo class="block h-9 w-auto" />
                                 </Link>
                             </div>
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                <!--<NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
-                                </NavLink>
+                                </NavLink>-->
                                 <NavLink :href="route('assigned_books.list')" :active="route().current('assigned_books.list')">
                                     読書記録を登録する
                                 </NavLink>
@@ -202,11 +202,11 @@ const logout = () => {
 
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
+                    <!--<div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
                             Dashboard
                         </ResponsiveNavLink>
-                    </div>
+                    </div>-->
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">

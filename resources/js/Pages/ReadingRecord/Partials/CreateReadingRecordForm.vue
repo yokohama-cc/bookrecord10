@@ -30,7 +30,7 @@ const createReadingRecord = () => {
 <template>
     <FormSection @submitted="createReadingRecord">
         <template #title>
-            読書記録を登録する
+            登録
         </template>
 
         <template #description>
@@ -59,6 +59,7 @@ const createReadingRecord = () => {
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="report" value="感想" />
                 <TextareaInput
+                    row = "10"
                     id = "report"
                     v-model="form.report"                    
                     class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"

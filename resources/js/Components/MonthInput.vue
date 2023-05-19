@@ -3,11 +3,11 @@ import { ref } from 'vue'
 import Datepicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
-const date = ref(new Date())
+const ref_yearmonth = ref();
 
 </script>
 
 <template>
-  <Datepicker v-model="date" locale="jp" monthPicker >
+  <Datepicker v-model="ref_yearmonth"   locale="jp" monthPicker >
   </Datepicker>
 </template>

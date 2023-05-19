@@ -26,11 +26,11 @@ const createBook = () => {
 <template>
     <FormSection @submitted="createBook">
         <template #title>
-            図書追加
+            登録
         </template>
 
         <template #description>
-            図書の追加を行います。
+            図書の登録を行います。
         </template>
 
         <template #form>
@@ -64,7 +64,6 @@ const createBook = () => {
                 <TextInput
                     id="company"
                     v-model="form.company"
-                    type="text"
                     class="mt-1 block w-full"
                     required
                     autofocus

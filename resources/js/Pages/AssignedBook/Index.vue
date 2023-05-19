@@ -2,9 +2,8 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import { useForm, Link } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import DangerButton from '@/Components/DangerButton.vue';
 import BookList from '@/Pages/AssignedBook/Partials/BookList.vue';
-import SelectTeam from '@/Pages/AssignedBook/Partials/SelectTeam.vue';
+import InputLabel from '@/Components/InputLabel.vue';
 
 const props = defineProps({
     current_team_id: Number,
@@ -40,6 +39,7 @@ const select = () => {
                         </h2>
                     </div>
                     <div>
+                        <InputLabel for="team_id" value="所属:" />
                         <select
                             v-model = "form.team_id"
                             value = "props.team_id"

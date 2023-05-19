@@ -25,6 +25,7 @@ class TeamUserSeeder extends Seeder
             if ($user->id != 1) {
             \App\Models\Membership::factory()->create([
                 'user_id' => $user->id,
+                'team_id' => $user->current_team_id,
                  ]);}
                 }
     }

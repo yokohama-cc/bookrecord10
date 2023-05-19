@@ -34,16 +34,16 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    //Route::get('/dashboard',[ReadingRecordController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard', function () {
+    Route::get('/',[ReadingRecordController::class, 'readerlist']);
+    /*Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
-    })->name('dashboard');
+    })->name('dashboard');*/
 });
 
 Route::get('assigned_books',[AssignedBookController::class,'index'])->name('assigned_books.index');
 Route::post('assigned_books',[AssignedBookController::class,'index'])->name('assigned_books.select');
 Route::get('assigned_books/list',[AssignedBookController::class,'index'])->name('assigned_books.list');
-Route::post('assigned_books/list',[AssignedBookController::class,'index'])->name('assigned_books.postlist');
+Route::post('assigned_books/list',[AssignedBookController::class,'index'])->name('assigned_books.list');
 Route::post('assigned_books/add', [AssignedBookController::class,'add'])->name('assigned_books.add');
 Route::delete('assigned_books/{assigned_book}', [AssignedBookController::class,'destroy'])->name('assigned_books.destroy');
 Route::post('assigned_books/search', [AssignedBookController::class,'search'])->name('assigned_books.search');

@@ -13,7 +13,7 @@ const props = defineProps({
     <AppLayout title="読書記録を登録する">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                読書記録を登録する
+                読書記録
             </h2>
         </template>
 

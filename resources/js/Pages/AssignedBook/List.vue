@@ -37,10 +37,11 @@ const search = () => {
                 <div class="flex justify-between h-16">
                     <div>
                         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                            読書記録を作成する
+                            読書記録を登録する
                         </h2>
                     </div>
-                    <div class="space-x-8 ml-3 relative">                                                        
+                    <div class="space-x-8 ml-3 relative">
+                                <InputLabel for="team_id" value="所属:" />                                                        
                                 <select
                                     v-model = "form.team_id"
                                     value = "props.team_id"

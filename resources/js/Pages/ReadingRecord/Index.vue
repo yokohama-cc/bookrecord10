@@ -49,7 +49,7 @@ const search = () => {
                         </div>
                         
                         
-                        <div class="space-x-8 ml-3 relative">
+                        <div>
                             <InputLabel for="team_id" value="所属:" />                            
                             <select
                                 v-model = "form.team_id"

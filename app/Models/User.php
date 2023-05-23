@@ -64,3 +64,4 @@ class User extends Authenticatable
         return $this->hasOne('App\Models\Reader');
     }
 }
+    

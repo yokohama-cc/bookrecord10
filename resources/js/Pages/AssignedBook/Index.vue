@@ -44,7 +44,7 @@ const select = () => {
                             v-model = "form.team_id"
                             value = "props.team_id"
                             class="rounded border-gray-300  shadow-sm focus:ring-indigo-500">
-                            <option v-for="team in teams" :key="team.id" :value="team.id">{{team.name}}</option>
+                            <option v-for="team in teams" :key="team.id" :value="team.id" :disabled="! team.canUpdateTeam">{{team.name}}</option>
                         </select>
                     </div>
                     <div>

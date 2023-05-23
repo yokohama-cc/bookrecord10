@@ -3,6 +3,7 @@
 import { useForm, router, Link } from '@inertiajs/vue3';
 import Icon from '@/Components/Icon.vue';
 import { toRef } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const props = defineProps({
     current_team_id: Number,
@@ -56,35 +57,17 @@ const addAssignedBook = (book) => {
             </td>
           </tr> 
           <tr v-for="assigned_book in assigned_books" :key="assigned_book.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)">
-                    {{ assigned_book.book.name }}
-                </Link>
-              </td>
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
-                    {{ assigned_book.book.author }}
-                </Link>
-              </td>
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
-                    {{ assigned_book.book.company }}
-                </Link>
-              </td>
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
-                    {{ assigned_book.book.year_publication }}
-                </Link>
-              </td>
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
-                    {{ assigned_book.book.isbn }}
-                </Link>
-              </td>
-              <td class="w-px border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="deleteAssignedBook(assigned_book)" tabindex="-1">
-                    <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
-                </Link>
+              <td class="border-t pb-4 pt-6 px-6">{{ assigned_book.book.name }}</td>
+              <td class="border-t pb-4 pt-6 px-6">{{ assigned_book.book.author }}</td>
+              <td class="border-t pb-4 pt-6 px-6">{{ assigned_book.book.company }}</td>
+              <td class="border-t pb-4 pt-6 px-6">{{ assigned_book.book.year_publication }}</td>
+              <td class="border-t pb-4 pt-6 px-6">{{ assigned_book.book.isbn }}</td>
+              <td class="w-px border-t pb-4 pt-6 px-6">
+                <Link @click="deleteAssignedBook(assigned_book)">
+                  <PrimaryButton>
+                    解除    
+                  </PrimaryButton>
+                </link>
               </td>
             </tr>
             <tr>
@@ -94,35 +77,17 @@ const addAssignedBook = (book) => {
             </tr>
             
             <tr v-for="book in books" :key="book.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4 focus:text-indigo-500" as="button" @click="addAssignedBook(book)">
-                  {{ book.name }}
-                </Link>
-              </td>
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
-                  {{ book.author }}
-                </Link>
-              </td>
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
-                  {{ book.company }}
-                </Link>
-              </td>
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
-                  {{ book.year_publication }}
-                </Link>
-              </td>
-              <td class="border-t">
-                <Link class="flex items-center px-6 py-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
-                  {{ book.isbn }}
-                </Link>
-              </td>
-              <td class="w-px border-t">
-                <Link class="flex items-center px-4" method ="post" as="button" @click="addAssignedBook(book)" tabindex="-1">
-                  <icon name="cheveron-right" class="block w-6 h-6 fill-gray-400" />
-                </Link>
+              <td class="border-t pb-4 pt-6 px-6">{{ book.name }}</td>
+              <td class="border-t pb-4 pt-6 px-6">{{ book.author }}</td>
+              <td class="border-t pb-4 pt-6 px-6">{{ book.company }}</td>
+              <td class="border-t pb-4 pt-6 px-6">{{ book.year_publication }}</td>
+              <td class="border-t pb-4 pt-6 px-6">{{ book.isbn }}</td>
+              <td class="w-px border-t pb-4 pt-6 px-6">
+                <Link @click="addAssignedBook(book)">
+                  <PrimaryButton>
+                    登録    
+                  </PrimaryButton>
+                </link>
               </td>
             </tr>
            

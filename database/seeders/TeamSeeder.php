@@ -19,29 +19,29 @@ class TeamSeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
         DB::table('teams')->insert([
             [
-                'name'	=>  '荒木ゼミ（文学）',
-                'user_id' => 1,
+                'name'	=>  '多田ゼミ（文学）',
+                'user_id' => 2,
                 'personal_team' => false,
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             ],
             [
-                'name'	=>  '荒木ゼミ（臨床教育）',
-                'user_id' => 1,
+                'name'	=>  '多田ゼミ（臨床教育）',
+                'user_id' => 2,
                 'personal_team' => false,
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             ],
             [
-                'name'	=>  '田中ゼミ',
-                'user_id' => 1,
+                'name'	=>  '岡本ゼミ',
+                'user_id' => 3,
                 'personal_team' => false,
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             ],
             [
-                'name'	=>  '渡辺ゼミ',
-                'user_id' => 1,
+                'name'	=>  '横田ゼミ',
+                'user_id' => 4,
                 'personal_team' => false,
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()

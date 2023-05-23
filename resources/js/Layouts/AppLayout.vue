@@ -8,6 +8,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import BookrecordLogo from '@/Components/BookrecordLogo.vue';
+
 defineProps({
     title: String,
 });
@@ -45,7 +46,7 @@ const logout = () => {
                                     <BookrecordLogo class="block h-9 w-auto" />
                                 </Link>
                             </div>
-
+                            
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <!--<NavLink :href="route('dashboard')" :active="route().current('dashboard')">
@@ -60,9 +61,11 @@ const logout = () => {
                                 <NavLink :href="route('books.index')" :active="route().current('books.index')">
                                     本を登録・変更する
                                 </NavLink>
+                                <template v-if="$page.props.permission.canUpdateTeam">
                                 <NavLink :href="route('assigned_books.index')" :active="route().current('assigned_books.index')">
                                     指定図書登録
-                                </NavLink> 
+                                </NavLink>
+                                </template> 
                             </div>
                         </div>
 

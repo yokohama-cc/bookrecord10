@@ -21,8 +21,32 @@ class UserSeeder extends Seeder
             [
                 'name'	=>  'システム管理者',
                 'email'		=>	'admin@bookrecord.com',
-                'password'			=> bcrypt('adminadmin'),
+                'password'			=> bcrypt('password'),
                 'current_team_id' => 1,
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            ],
+            [
+                'name'	=>  '多田 かずみ',
+                'email'		=>	'tada_1218@example.com',
+                'password'			=> bcrypt('password'),
+                'current_team_id' => 1,
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            ],
+            [
+                'name'	=>  '岡本 洋明',
+                'email'		=>	'okamoto216@example.jp',
+                'password'			=> bcrypt('password'),
+                'current_team_id' => 3,
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            ],
+            [
+                'name'	=>  '横田 彩',
+                'email'		=>	'yokota826@example.net',
+                'password'			=> bcrypt('password'),
+                'current_team_id' => 4,
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             ],

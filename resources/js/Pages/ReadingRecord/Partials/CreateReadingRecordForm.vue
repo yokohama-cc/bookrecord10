@@ -62,7 +62,7 @@ const createReadingRecord = () => {
                     row = "10"
                     id = "report"
                     v-model="form.report"                    
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                    class="mt-1 block w-full h-40 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
                     required
                 ></TextareaInput>
                 <InputError :message="form.errors.report" class="mt-2" />

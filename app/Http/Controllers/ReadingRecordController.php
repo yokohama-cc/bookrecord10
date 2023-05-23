@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 use Illuminate\Support\Facades\Gate;
-use Laravel\Jetstream\Membership;
+
 
 class ReadingRecordController extends Controller
 {
     public function search(StoreReadingRecordRequest $request)
     {
-        //$page = $request->session()->pull('page');
+        
         $current_team_id = $request->input('team_id');
         $teams = Team::all();
         $param = $request->input('param');
@@ -34,7 +34,7 @@ class ReadingRecordController extends Controller
         }
         $readers_id = Reader::whereIn('user_id',$users_id)->pluck('id');
         $books_id = Book::where('name','like',$key)->pluck('id');
-        //$reading_records = ReadingRecord::whereIn('book_id',$books_id)->whereIn('reader_id',$readers_id)->paginate(10,array('*'),'page',$page);
+       
         $reading_records = ReadingRecord::whereIn('book_id',$books_id)->whereIn('reader_id',$readers_id)->with('book')->with('reader')->paginate(10);
         
         return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team_id'));
@@ -42,7 +42,7 @@ class ReadingRecordController extends Controller
     
     public function searchbyreader(StoreReadingRecordRequest $request)
     {
-        //$page = $request->session()->pull('page');
+        
         $teams = Team::all();
         $current_team_id = Auth::user()->current_team_id;
         $param = $request->input('paramreader');
@@ -56,7 +56,6 @@ class ReadingRecordController extends Controller
         
         $readers_id = Reader::whereIn('user_id',$users_id)->pluck('id');
         $reading_records = ReadingRecord::whereIn('reader_id',$readers_id)->with('book')->with('reader')->paginate(10);
-        //$reading_records = ReadingRecord::whereIn('reader_id',$readers_id)->paginate(10,array('*'),'page',$page);
         
         
         return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team_id'));
@@ -67,7 +66,7 @@ class ReadingRecordController extends Controller
         $teams = Team::all();
         $team_id = Auth::user()->current_team_id;
         $current_team_id = Team::where('id',$team_id)->get();
-        //$page = $request->session()->pull('page');
+        
         $reading_records = ReadingRecord::where('book_id',$book_id)->with('book')->with('reader')->paginate(10);
         
         return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team_id'));
@@ -75,10 +74,10 @@ class ReadingRecordController extends Controller
     
     public function readerlist(StoreReadingRecordRequest $request)
     {
-        //$reader_id = Auth::user()->reader->id;
+        
         $teams = Team::all();
         $current_team_id = Auth::user()->current_team_id;
-        //$page = $request->session()->pull('page');
+        
         $team = Team::find($current_team_id);
         $users_id = DB::table('team_user')->where('team_id',$current_team_id)->get()->pluck('user_id');
         
@@ -96,7 +95,7 @@ class ReadingRecordController extends Controller
     {
         $book = Book::find($book_id);
         $book_name = $book->name;
-        //$reader = Reader::find(Auth::user()->reader->id);
+        
         return Inertia::render('ReadingRecord/Create',compact('book_id','book_name'));
     }
     /**
@@ -114,7 +113,7 @@ class ReadingRecordController extends Controller
             $users_id->push(Auth::user()->id);
         }
         $readers_id = Reader::whereIn('user_id',$users_id)->pluck('id');
-        //$reading_records = ReadingRecord::whereIn('book_id',$books_id)->whereIn('reader_id',$readers_id)->paginate(10,array('*'),'page',$page);
+        
         $reading_records = ReadingRecord::with('reader')->with('book')->paginate(10);
         
         return Inertia::render('ReadingRecord/Index',compact('reading_records','teams','current_team_id'));
@@ -126,7 +125,7 @@ class ReadingRecordController extends Controller
     public function create()
     {
         $books = Book::pluck('name','id');
-        //$readers = Reader::pluck('name','id');
+        
         return Inertia::render('ReadingRecord/Create',compact('books'));
     }
 
@@ -146,7 +145,7 @@ class ReadingRecordController extends Controller
         $reading_record->reader_id = Auth::user()->reader->id;
         $reading_record->report = $input['report'];
         $reading_record->save();
-        //$url = 'reading_records/readerlist/'.$reading_record['reader_id'];
+       
         return redirect()->route('reading_records.readerlist');
     }
 
@@ -183,7 +182,7 @@ class ReadingRecordController extends Controller
         $reading_record->month_read = $month;
         $reading_record->report = $input['report'];
         $reading_record->update();
-        //$url = 'reading_records/readerlist/'.$reading_record['reader_id'];
+        
         return redirect()->route('reading_records.readerlist');
     }
 
@@ -194,7 +193,7 @@ class ReadingRecordController extends Controller
     {
         $this->authorize('update_and_delete', $reading_record);
         $reading_record->delete();
-        //$page = $request->input('page');
+        
         return redirect()->route('reading_records.readerlist');
     }
 }

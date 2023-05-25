@@ -97,7 +97,7 @@ class AssignedBookController extends Controller
         if (empty($param))
         {
             
-            list ($assigned_books,$books,$teams,$teams) = $this->getbooks($current_team_id);
+            list ($assigned_books,$books,$teams) = $this->getbooks($current_team_id);
         }
         else 
         {

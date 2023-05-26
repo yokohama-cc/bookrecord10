@@ -22,17 +22,20 @@ class ReadingRecordController extends Controller
     public function search(StoreReadingRecordRequest $request)
     {
         
-        $current_team_id = $request->input('team_id');
+        if ($request->has('team_id')){
+            $current_team_id = $request->input('team_id');
+            $team = Team::find($current_team_id);
+            $users_id = DB::table('team_user')->where('team_id',$current_team_id)->get()->pluck('user_id');
+            if (Auth::user()->id == $team->user_id){
+                $users_id->push(Auth::user()->id);
+            }
+            $readers_id = Reader::whereIn('user_id',$users_id)->pluck('id');
+        }
         $teams = Team::all();
+        
         $param = $request->input('param');
         $key = '%'.$param.'%';
-        $team = Team::find($current_team_id);
-        $users_id = DB::table('team_user')->where('team_id',$current_team_id)->get()->pluck('user_id');
-        
-        if (Auth::user()->id == $team->user_id){
-            $users_id->push(Auth::user()->id);
-        }
-        $readers_id = Reader::whereIn('user_id',$users_id)->pluck('id');
+                
         $books_id = Book::where('name','like',$key)->pluck('id');
        
         $reading_records = ReadingRecord::whereIn('book_id',$books_id)->whereIn('reader_id',$readers_id)->with('book')->with('reader')->paginate(10);

@@ -101,9 +101,9 @@ class AssignedBookController extends Controller
         }
         else 
         {
-        $key = '%'.$param.'%';
-        $books = Book::where('name','like',$key)->orwhere('author','like',$key)->orwhere('company','like',$key)->get();
-                
+            $teams = Team::all();
+            $key = '%'.$param.'%';
+        $books = Book::where('name','like',$key)->orwhere('author','like',$key)->orwhere('company','like',$key)->get();              
         
         
         $books_id = $books->pluck('id');
@@ -113,7 +113,7 @@ class AssignedBookController extends Controller
         $books = $books->whereNotIn('id',$assigned_books_id)->sortBy('id')->all();
         
         }
-        return Inertia::render('assigned_books.list',compact('assigned_books','books','teams','current_team_id'));
+        return Inertia::render('AssignedBook/List',compact('assigned_books','books','teams','current_team_id'));
     }
     
     private function getbooks(Int $team_id)

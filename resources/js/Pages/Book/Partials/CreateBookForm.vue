@@ -64,6 +64,7 @@ const createBook = () => {
                 <TextInput
                     id="company"
                     v-model="form.company"
+                    type="text"
                     class="mt-1 block w-full"
                     required
                     autofocus
@@ -75,7 +76,6 @@ const createBook = () => {
                     <YearInput
                         id="year_publication"
                         v-model="form.year_publication"
-                        type="text"
                         class="mt-1 block w-full"
                         required
                         autofocus

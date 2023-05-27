@@ -35,14 +35,14 @@ const props = defineProps({
               <td class="border-t pb-4 pt-6 px-6">{{ assigned_book.book.year_publication }}</td>
               <td class="border-t pb-4 pt-6 px-6">{{ assigned_book.book.isbn }}</td>
               <td class="w-px border-t pb-4 pt-6 px-6">
-                <Link :href="route('reading_records.add', assigned_book.id)">
+                <Link :href="route('reading_records.add', assigned_book.book.id)">
                   <PrimaryButton>
                     登録    
                   </PrimaryButton>
                 </link>
               </td>
               <td class="w-px border-t pb-4 pt-6 px-6">
-                <Link :href="route('reading_records.booklist', assigned_book.id)">
+                <Link :href="route('reading_records.booklist', assigned_book.book.id)">
                   <PrimaryButton>
                     読書記録参照    
                   </PrimaryButton>

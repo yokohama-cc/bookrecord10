@@ -32,10 +32,10 @@ const submit = () => {
 
 <template>
     <Head title="Log in" />
-
+    
     <AuthenticationCard>
         <template #logo >
-            <div class="w-16 h-16">
+            <div class="w-20 h-20">
             <!--<AuthenticationCardLogo />-->
                 <BookRecordLogo />
             </div>
@@ -44,7 +44,7 @@ const submit = () => {
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
             {{ status }}
         </div>
-
+        
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="メールアドレス" />
@@ -89,6 +89,20 @@ const submit = () => {
                     Log in
                 </PrimaryButton>
             </div>
+            
         </form>
+         <div class="mt-4">そのままLOG INをクリックしてログインしてください。</div>
+        <div class="mt-4 font-semibold" >ゼミ編集がないユーザー</div>
+        <div class="mt-4 grid gap-2 grid-cols-2">
+            <div>メールアドレス</div>
+            <div>akihisa_baba@example.co.jp</div>
+        </div>
+        <div class="mt-4 grid gap-2 grid-cols-2">
+            <div>パスワード</div>
+            <div>password</div>
+        </div> 
+        
     </AuthenticationCard>
+    
+    
 </template>

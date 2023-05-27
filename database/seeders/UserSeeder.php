@@ -50,6 +50,14 @@ class UserSeeder extends Seeder
                 'created_at'    => Carbon::now(),
                 'updated_at'    => Carbon::now()
             ],
+            [
+                'name'	=>  '馬場 晃久',
+                'email'		=>	'akihisa_baba@example.co.jp',
+                'password'			=> bcrypt('password'),
+                'current_team_id' => 1,
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now()
+            ],
         
         ]);
         \App\Models\User::factory(10)->create();
